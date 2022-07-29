@@ -9,6 +9,8 @@
   unarchive:
    src: artifact.tar.gz
    dest: ~/app
+   remote_src: true
+   validate_certs: true
 
 - name: "install node dependencies"
   shell: |
