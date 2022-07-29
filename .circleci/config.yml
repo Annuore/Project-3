@@ -335,7 +335,6 @@ jobs:
     steps:
       - checkout
       - install-awscli
-      - install-nodejs
       - run:
           name: Get backend url
           command: |
