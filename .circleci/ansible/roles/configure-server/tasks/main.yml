@@ -19,3 +19,9 @@
   npm:
     name: pm2
     global: yes
+
+- name: "copy .env file to /etc/profile.d"
+  become: true 
+  copy:
+    src: env.sh
+    dest: /etc/profile.d/
