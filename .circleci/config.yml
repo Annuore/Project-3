@@ -257,8 +257,13 @@ jobs:
           command: |
             sudo apt -y update && apt install -y python3
             curl -fssL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+<<<<<<< HEAD
             sudo apt install -y nodejs 
             sudo apt install -y build-essential
+=======
+            sudo apt install -y nodejs
+            sudo apt install -y build-essential 
+>>>>>>> refs/remotes/origin/master
       - run:
           name: Get backend url
           command: |
