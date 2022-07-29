@@ -292,24 +292,17 @@ jobs:
           fingerprints: ["59:1b:d6:07:22:3e:9f:65:67:19:84:c9:46:e3:10:22"]
       - attach_workspace:  
           at: ~/
-      - run:
-          name: Install dependencies
-          command: |
-            sudo apt -y update && sudo apt install -y python3
-            curl -fssL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-            sudo apt install -y nodejs
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Install and build backend
           command: |
             cd backend
             npm i
             npm run build
-            cd ../.circleci/ansible/roles/deploy/
-            sudo mkdir files 
-            cd files 
-            # Zip the directory
-            tar -C ../../../../../backend -czf artifact.tar.gz .
-            # cp artifact.tar.gz .circleci/ansible/roles/deploy/files
+            tar -czf artifact.tar.gz dist/* package*
+            cd ..
+            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
       - run:
           name: Deploy backend
           command: |
