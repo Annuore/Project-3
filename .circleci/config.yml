@@ -303,11 +303,10 @@ jobs:
       - run:
           name: Install and build backend
           command: |
-            # cd backend
-            # npm i
-            # npm run build
-            # cd ..
-            cd .circleci/ansible
+            cd backend
+            npm i
+            npm run build
+            cd ../.circleci/ansible
             mkdir files
             cd files 
             tar -C ../../../backend -czvf artifact.tar.gz .
