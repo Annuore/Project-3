@@ -295,6 +295,12 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - run:
+          name: Install dependencies
+          command: |
+            sudo apt -y update && sudo apt install -y python3
+            curl -fssL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+            sudo apt install -y nodejs
+      - run:
           name: Install and build backend
           command: |
             cd backend
