@@ -284,17 +284,6 @@ jobs:
   deploy-backend:
     docker:
       - image: cimg/base:2022.07
-        environment:
-          NODE_ENV: "local"
-          VERSION: "1"
-          ENVIRONMENT: "production"
-          TYPEORM_CONNECTION: $TYPEORM_CONNECTION
-          TYPEORM_HOST: $TYPEORM_HOST
-          TYPEORM_USERNAME: $TYPEORM_USERNAME
-          TYPEORM_PASSWORD: $TYPEORM_PASSWORD
-          TYPEORM_DATABASE: $TYPEORM_DATABASE
-          TYPEORM_PORT: $TYPEORM_PORT
-          TYPEORM_ENTITIES: $TYPEORM_ENTITIES
     steps:
       - checkout
       - install-awscli
@@ -313,12 +302,14 @@ jobs:
           name: Install and build backend
           command: |
             cd backend
-            npm install
+            npm i
             npm run build
-            cd ..
+            cd ../.circleci/ansible/roles/deploy/
+            sudo mkdir files 
+            cd files 
             # Zip the directory
-            tar -czf artifact.tar.gz ./backend/* 
-            cp artifact.tar.gz /home/circleci/project/.circleci/ansible/roles/deploy/files
+            tar -C ../../../../../backend -czf artifact.tar.gz .
+            # cp artifact.tar.gz .circleci/ansible/roles/deploy/files
       - run:
           name: Deploy backend
           command: |
