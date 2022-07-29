@@ -301,10 +301,13 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - run:
-          name: Install and build backend
+          name: Install backend
           command: |
             cd backend
             npm i
+      - run:
+          name: Build  and package backend
+          command: |
             npm run build
             cd ..
             tar -C backend -czf artifact.tar.gz .
