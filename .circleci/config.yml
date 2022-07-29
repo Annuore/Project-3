@@ -301,16 +301,12 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - run:
-          name: Install backend
+          name: Install and build backend
           command: |
-            cd backend
-            npm i
-      - run:
-          name: Build  and package backend
-          command: |
-            cd backend
-            npm run build
-            cd ..
+            # cd backend
+            # npm i
+            # npm run build
+            # cd ..
             tar -C backend -czf artifact.tar.gz .
             sudo cp artifact.tar.gz .circleci/ansible/roles/deploy/files
             ls .circleci/ansible/roles/deploy/files
