@@ -307,10 +307,10 @@ jobs:
             # npm i
             # npm run build
             # cd ..
-            tar -C backend -czvf artifact.tar.gz .
-            mkdir ./.circleci/ansible/roles/deploy/files
-            sudo cp artifact.tar.gz .circleci/ansible/roles/deploy/files
-            ls .circleci/ansible/roles/deploy/files
+            cd .circleci/ansible
+            mkdir files
+            cd files 
+            tar -C ../../../backend -czvf artifact.tar.gz .
       - run:
           name: Deploy backend
           command: |
