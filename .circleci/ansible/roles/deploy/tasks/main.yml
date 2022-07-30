@@ -1,73 +1,48 @@
 ---
 
-- name: "Creates backend app directory"
+- name: make directory for the backend app
   file:
-    path: ~/backend-app
-    state: directory
-
-- name: "Unarchive backend files"
-  unarchive:
+   path: ~/app
+   state: directory
+      
+- name: "copy artifact tar file to ec2 instance"
+  copy:
     src: artifact.tar.gz
-    dest: ~/backend-app
+    dest: ~/
+    backup: yes
 
-- name: "Installing Node Dependencies"
+- name: "untar backend file"
+  unarchive:
+   src: ~/artifact.tar.gz
+   dest: ~/app
+   remote_src: true
+   validate_certs: true
+
+- name: "install node dependencies"
   shell: |
-    cd ~/backend-app
+    cd ~/app
     npm i
-- name: "Executing Node app with PM2"
+
+- name: "run node app with PM2"
   shell: |
-    cd ~/backend-app/dist
-    pm2 stop default
-    pm2 start main.js
+    cd ~/app/dist
+    cd ../
+    npm i
+    npm run build
+    sudo npm install forever -g 
+    sudo npm install ts-node -g
+    forever start -c "ts-node -r tsconfig-paths/register -r dotenv/config src/main.ts" ./
+    # pm2 stop default
+    # pm2 start main.js
+    # pm2 start npm -- start
   register: execute_node
 
 - name: print message
   debug:
     msg: "{{ execute_node.stdout_lines }}"
 
-- name: "Configure pm2 to start as service"
+
+- name: "start pm2 as service"
   become: true
   shell: |
     env PATH=$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu
-
-# - name: make directory for the backend app
-#   file:
-#    path: ~/app
-#    state: directory
-      
-# - name: "copy artifact tar file to ec2 instance"
-#   copy:
-#     src: artifact.tar.gz
-#     dest: ~/
-#     backup: yes
-
-# - name: "untar backend file"
-#   unarchive:
-#    src: ~/artifact.tar.gz
-#    dest: ~/app
-#    remote_src: true
-#    validate_certs: true
-
-# - name: "install node dependencies"
-#   shell: |
-#     cd ~/app
-#     npm i
-#     npm run build
-
-# - name: "run node app with PM2"
-#   shell: |
-#     cd ~/app/dist
-#     pm2 stop default
-#     pm2 start main.js
-#     pm2 start npm -- start
-#   register: execute_node
-
-# - name: print message
-#   debug:
-#     msg: "{{ execute_node.stdout_lines }}"
-
-
-# - name: "start pm2 as service"
-#   become: true
-#   shell: |
-#     env PATH=$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu
