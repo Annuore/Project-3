@@ -4,6 +4,12 @@
     path: ~/backend-app
     state: directory
 
+- name: "copy artifact tar file to ec2 instance"
+  copy:
+    src: artifact.tar.gz
+    dest: ~/backend-app
+    backup: yes
+
 - name: "Unarchive backend files"
   unarchive:
     src: artifact.tar.gz
