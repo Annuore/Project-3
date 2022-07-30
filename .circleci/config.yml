@@ -254,7 +254,7 @@ jobs:
       - install-awscli
       - install-ansible
       - run:
-          name: Install dependencies
+          name: Install nodejs
           command: |
             sudo apt -y update && sudo apt install -y python3
             curl -fssL https://deb.nodesource.com/setup_14.x | sudo -E bash -
@@ -293,6 +293,13 @@ jobs:
           fingerprints: ["59:1b:d6:07:22:3e:9f:65:67:19:84:c9:46:e3:10:22"]
       - attach_workspace:  
           at: ~/
+      - run:
+          name: Install nodejs
+          command: |
+            sudo apt -y update && sudo apt install -y python3
+            curl -fssL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+            sudo apt install -y nodejs
+            sudo apt install -y build-essential 
       - run:
           name: Install dependencies
           command: |
