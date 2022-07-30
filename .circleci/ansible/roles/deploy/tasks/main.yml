@@ -27,7 +27,6 @@
   shell: |
     cd ~/app/dist
     cd ../
-    npm i
     npm run build
     pm2 stop default
     pm2 start main.js

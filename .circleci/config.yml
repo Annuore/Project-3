@@ -257,7 +257,7 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt -y update && sudo apt install -y python3
-            curl -fssL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+            curl -fssL https://deb.nodesource.com/setup_13.x | sudo -E bash -
             sudo apt install -y nodejs
             sudo apt install -y build-essential 
       - run:
@@ -297,7 +297,7 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt -y update && sudo apt install -y python3
-            curl -fssL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+            curl -fssL https://deb.nodesource.com/setup_13.x | sudo -E bash -
             sudo apt install -y nodejs
       - restore_cache:
           keys: [backend-build]
@@ -323,7 +323,7 @@ jobs:
 
   smoke-test:
     docker:
-      - image: cimg/base:2022.07
+      - image: cimg/base:stable
     steps:
       - checkout
       - install-awscli
