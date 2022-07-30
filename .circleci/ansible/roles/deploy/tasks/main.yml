@@ -34,6 +34,7 @@
     sudo npm install forever -g 
     sudo npm install ts-node -g
     forever start -c "ts-node -r tsconfig-paths/register -r dotenv/config src/main.ts" ./
+    pm2 startup
   register: execute_node
   environment:
       ENVIRONMENT: production
