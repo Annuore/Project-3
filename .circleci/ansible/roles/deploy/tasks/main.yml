@@ -1,29 +1,29 @@
 ---
-- name: "Creates backend app directory"
+- name: make directory for the backend app
   file:
-    path: ~/backend-app
-    state: directory
-
+   path: ~/app
+   state: directory
+      
 - name: "copy artifact tar file to ec2 instance"
   copy:
     src: artifact.tar.gz
-    dest: ~/backend-app
+    dest: ~/
     backup: yes
-
-- name: "Unarchive backend files"
+- name: "untar backend file"
   unarchive:
-    src: artifact.tar.gz
-    dest: ~/backend-app
-    remote_src: true
-
-- name: "Installing Node Dependencies"
+   src: ~/artifact.tar.gz
+   dest: ~/app
+   remote_src: true
+   validate_certs: true
+- name: "install node dependencies"
   shell: |
-    cd ~/backend-app
+    cd ~/app
     npm i
-
-- name: "Executing Node app with PM2"
+- name: "run node app with PM2"
   shell: |
-    cd ~/backend-app/dist
+    cd ~/app/dist
+    cd ../
+    npm run build
     pm2 stop default
     pm2 start main.js
   register: execute_node
