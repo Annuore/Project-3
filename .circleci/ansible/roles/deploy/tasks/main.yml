@@ -9,16 +9,19 @@
     src: artifact.tar.gz
     dest: ~/
     backup: yes
+
 - name: "untar backend file"
   unarchive:
    src: ~/artifact.tar.gz
    dest: ~/app
    remote_src: true
    validate_certs: true
+
 - name: "install node dependencies"
   shell: |
     cd ~/app
     npm i
+    
 - name: "run node app with PM2"
   shell: |
     cd ~/app/dist
