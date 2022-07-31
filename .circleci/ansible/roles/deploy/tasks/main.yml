@@ -4,21 +4,23 @@
     path: ~/backend-app
     state: directory
 
-- name: "copy artifact tar file to ec2 instance"
-  copy:
-    src: artifact.tar.gz
-    dest: ~/backend-app
-    backup: yes
+# - name: "copy artifact tar file to ec2 instance"
+#   copy:
+#     src: artifact.tar.gz
+#     dest: ~/backend-app
+#     backup: yes
 
 - name: "Unarchive backend files"
   unarchive:
     src: artifact.tar.gz
     dest: ~/backend-app
+    remote_src: true
 
 - name: "Installing Node Dependencies"
   shell: |
     cd ~/backend-app
     npm i
+    
 - name: "Executing Node app with PM2"
   shell: |
     cd ~/backend-app/dist

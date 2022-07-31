@@ -88,7 +88,7 @@ jobs:
             npm run build 
             # exit 1
       - save_cache:
-          paths: [backend/node_modules]
+          paths: [backend/node_modules,backend/dist]
           key: backend-build
 
   test-frontend:
@@ -122,7 +122,7 @@ jobs:
             npm install 
             npm run test
       - save_cache:
-          paths: [backend/node_modules]
+          paths: [backend/node_modules,backend/dist]
           key: backend-test
             
   scan-frontend:
